@@ -27,6 +27,21 @@ func HandleRVInput(input *C.char) string {
 	return response
 }
 
+func runRVTask(function string, params string) string {
+	switch function {
+	case "version":
+		return version()
+	case "prepLoadout":
+		return prepLoadout(params)
+	case "getStatus":
+		return getStatus()
+	case "getPrimaryWeapon":
+		return getPrimaryWeapon()
+	}
+
+	return "Function not Found"
+}
+
 func parseFunctionCall(input string) (string, string) {
 
 	i := strings.Index(input, " ")
@@ -54,12 +69,17 @@ func getStatus() string {
 }
 
 func getPrimaryWeapon() string {
-	return ActiveLoadout.PrimaryWeaponSystems[0]
+	if len(ActiveLoadout.PrimaryWeaponSystems) > 0 {
+		return ActiveLoadout.PrimaryWeaponSystems[0]
+	} else {
+		return ""
+	}
 }
 
 func prepLoadout(steamid string) string {
 
 	SyncLoadout(steamid)
+
 
 	return "Initialized loading of steamid: " + steamid
 

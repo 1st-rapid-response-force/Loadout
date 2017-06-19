@@ -6,6 +6,6 @@ import (
 
 func TestSyncLoadout(t *testing.T) {
 
-	SyncLoadout("76561198021531457")
+	// go SyncLoadout("76561198021531457")
 
 }

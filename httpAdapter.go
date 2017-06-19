@@ -13,6 +13,7 @@ type RRFLoadoutEndpoint struct {
 	} `json:"loadout"`
 }
 
+// Synchronously set the loading flag
 func SyncLoadout(steamid string) {
 
 	if IsLoading.IsSet() {
@@ -21,6 +22,15 @@ func SyncLoadout(steamid string) {
 
 	IsLoading.Set()
 	IsErrored.UnSet()
+
+	InitLoadout()
+
+	go makeRequest(steamid)
+
+}
+
+func makeRequest(steamid string) {
+	defer IsLoading.UnSet()
 
 	resp, err := http.Get("https://1st-rrf.com/api/loadout/" + steamid)
 
@@ -34,7 +44,7 @@ func SyncLoadout(steamid string) {
 
 	// Parse the JSON response to fill out the loadout section
 	parsedResponse := RRFLoadoutEndpoint{}
-  	json.NewDecoder(resp.Body).Decode(&parsedResponse)
+	json.NewDecoder(resp.Body).Decode(&parsedResponse)
 
 	parsedLoadout := Loadout{}
 
@@ -55,5 +65,5 @@ func SyncLoadout(steamid string) {
 	}
 
 	ActiveLoadout = parsedLoadout
-	
+
 }
