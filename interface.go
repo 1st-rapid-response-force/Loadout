@@ -28,6 +28,12 @@ func HandleRVInput(input *C.char) string {
 }
 
 func runRVTask(function string, params string) string {
+	defer func() {
+		if r := recover(); r != nil {
+			return
+		}
+	}()
+
 	switch function {
 	case "version":
 		return version()
