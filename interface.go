@@ -6,25 +6,13 @@ import (
 )
 
 //export HandleRVInput
-func HandleRVInput(input *C.char) string {
+func HandleRVInput(input *C.char) *C.char {
 	var s string = C.GoString(input)
 
 	function, params := parseFunctionCall(s)
 
-	response := ""
-
-	switch function {
-	case "version":
-		response = version()
-	case "prepLoadout":
-		response = prepLoadout(params)
-	case "getStatus":
-		response = getStatus()
-	case "getPrimaryWeapon":
-		response = getPrimaryWeapon()
-	}
-
-	return response
+	response := runRVTask(function, params)
+	return C.CString(response)
 }
 
 func runRVTask(function string, params string) string {
@@ -61,7 +49,7 @@ func parseFunctionCall(input string) (string, string) {
 }
 
 func version() string {
-	return "1.0.0"
+	return "1.0.11"
 }
 
 func getStatus() string {
@@ -87,7 +75,7 @@ func prepLoadout(steamid string) string {
 	SyncLoadout(steamid)
 
 
-	return "Initialized loading of steamid: " + steamid
+	return "loading"
 
 }
 
