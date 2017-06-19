@@ -1,7 +1,7 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include "windows.h"
-#include "../rrf_loadouts.h"
+#include "interface.h"
 
 BOOL APIENTRY DllMain( HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
 {
@@ -22,9 +22,10 @@ extern "C"
 };
 
 void __stdcall RVExtension(char *output, int outputSize, const char *function)
-{
-    var GoString response = HandleRVInput(function);
+{	
+	char* funcCopy = strdup(function);
+    GoString response = HandleRVInput(funcCopy);
 
-    out = response.p;
-    outputSize = response.n;
+	outputSize = response.n + 1;
+	strncpy_s(output, outputSize, response.p, _TRUNCATE);
 }
