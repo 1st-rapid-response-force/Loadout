@@ -31,6 +31,32 @@ func runRVTask(function string, params string) string {
 		return getStatus()
 	case "getPrimaryWeapon":
 		return getPrimaryWeapon()
+	case "getPrimaryAttachments":
+		return getPrimaryWeaponAttachments()
+	case "getSecondaryWeapon":
+		return getSecondaryWeapon()
+	case "getSecondaryAttachments":
+		return getSecondaryAttachments()
+	case "getLauncher":
+		return getLauncherWeapon()
+	case "getHelmet":
+		return getHelmets()
+	case "getUniform":
+		return getUniform()
+	case "getVest":
+		return getVest()
+	case "getBackpack":
+		return getBackpack()
+	case "getNightvision":
+		return getNightvision()
+	case "getGoggles":
+		return getGoggles()
+	case "getAdditionalEquipment":
+		return getAdditionalEquipment()
+	case "getRole":
+		return getRole()
+	case "getSpecialisms":
+		return getSpecialisms()
 	}
 
 	return "Function not Found"
@@ -53,30 +79,13 @@ func version() string {
 }
 
 func getStatus() string {
-	if IsLoading.IsSet(){
+	if IsLoading.IsSet() {
 		return "loading"
 	} else if IsErrored.IsSet() {
 		return "error"
 	} else {
 		return "ready"
 	}
-}
-
-func getPrimaryWeapon() string {
-	if len(ActiveLoadout.PrimaryWeaponSystems) > 0 {
-		return ActiveLoadout.PrimaryWeaponSystems[0]
-	} else {
-		return ""
-	}
-}
-
-func prepLoadout(steamid string) string {
-
-	SyncLoadout(steamid)
-
-
-	return "loading"
-
 }
 
 func main() {
