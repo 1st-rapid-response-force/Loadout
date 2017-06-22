@@ -83,6 +83,8 @@ func makeRequest(steamid string) {
 
 	}
 
+	parsedLoadout.Role = parsedResponse.Position
+
 	ActiveLoadout = parsedLoadout
 
 }
